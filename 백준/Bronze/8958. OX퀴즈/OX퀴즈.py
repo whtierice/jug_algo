@@ -6,6 +6,10 @@ score = 1
 sum = 0
 
 for i in range(n):
+
+    
+    score = 1
+    sum = 0
     a = list(sys.stdin.readline().strip())
 
     for i in range(len(a)):
@@ -20,6 +24,3 @@ for i in range(n):
 
     
     print(sum)
-
-    score = 1
-    sum = 0
