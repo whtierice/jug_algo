@@ -1,11 +1,7 @@
 import sys
 
+number = int(input())
 
-n = int(sys.stdin.readline().strip())
-
-for _ in range(n):
-    a , b = map(int,sys.stdin.readline().split())
+for _ in range(number):
+    a , b = list(map(int,sys.stdin.readline().split()))
     print(a+b)
-
-
-
