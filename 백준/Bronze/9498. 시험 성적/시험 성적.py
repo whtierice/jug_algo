@@ -1,21 +1,17 @@
-import sys
 
+s = int(input())
 
-a = int(sys.stdin.readline().strip())
-
-if 100 >= a >= 90:
+if s >= 90:
     grade = 'A'
-elif 90 > a >= 80:
+elif s >= 80:
     grade = 'B'
-elif 80 > a >= 70:
+elif s >= 70:
     grade = 'C'
-elif 70 > a >= 60:
+elif s >= 60:
     grade = 'D'
-elif 60 > a :
+else:
     grade = 'F'
 
-    
 
-
-    
 print(grade)
+
