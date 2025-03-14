@@ -1,17 +1,15 @@
-
 s = int(input())
 
 if s >= 90:
-    grade = 'A'
+    print('A')
 elif s >= 80:
-    grade = 'B'
+    print('B')
 elif s >= 70:
-    grade = 'C'
+    print('C')
 elif s >= 60:
-    grade = 'D'
+    print('D')
 else:
-    grade = 'F'
+    print('F')
 
 
-print(grade)
 
