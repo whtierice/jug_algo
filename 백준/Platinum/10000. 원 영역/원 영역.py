@@ -47,7 +47,7 @@ for i in range(n*2):
         stk.pop()
         # 만약 지금 완성되는 원과 맞닿는 원이 있다면, 스택에 가장 먼저들어온 괄호의 status 1로 유지, 아니라면 0으로 변경
         # 마지막 괄호는 어차피 접해있지 않으므로 확인 X
-        if i != n*2 -1:
+        if i != n*2 -1 and stk:
             if loc != circles[i+1]['loc']:
                 stk[-1]['status'] = 0
 
