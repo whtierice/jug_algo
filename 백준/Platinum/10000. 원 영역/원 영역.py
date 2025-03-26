@@ -20,56 +20,48 @@ circles = []
 stk = []
 ans = 1
 
-for i in range(n):
-    x , r = list(map(int, sys.stdin.readline().split()))
-    circles.append({'loc':x-r, 'brk':'('})
-    circles.append({'loc':x+r, 'brk':')'})
+for _ in range(n):
+    x , r = list(map(int,sys.stdin.readline().split()))
+    circles.append((x-r, "("))
+    circles.append((x+r, ")"))
+
+circles.sort(key = lambda x: (x[0], -ord(x[1])))
 
 
-circles.sort(key = lambda x : (x['loc'], -ord(x['brk'])))
-
-
-# print(circles)
 
 for i in range(n*2):
-    loc= circles[i]['loc']
-    brk= circles[i]['brk']
-
     if not stk:
-        stk.append({'loc': loc, 'brk': brk, 'status': 0})
-        continue
+        stk.append({'pos': circles[i][0], 'brk': circles[i][1], 'status': 0})
+    
 
-    if brk == ')':
-        if stk [-1]['status'] == 1:
-            ans += 2
+    if circles[i][1] == '(':
+        if stk[-1]['pos'] == circles[i][0]:
+            stk[-1]['status'] = 1
+            stk.append({'pos': circles[i][0], 'brk': circles[i][1], 'status': 0})
         else:
-            ans += 1
+            stk.append({'pos': circles[i][0], 'brk': circles[i][1], 'status': 0})
+    else:
+        if stk[-1]['status'] == 0:
+            ans +=1
+        else:
+            ans +=2 
+        
         stk.pop()
-        # 만약 지금 완성되는 원과 맞닿는 원이 있다면, 스택에 가장 먼저들어온 괄호의 status 1로 유지, 아니라면 0으로 변경
-        # 마지막 괄호는 어차피 접해있지 않으므로 확인 X
-        if i != n*2 -1 and stk:
-            if loc != circles[i+1]['loc']:
+        
+        if i != 2*n-1:
+            if circles[i][0] != circles[i+1][0]:
                 stk[-1]['status'] = 0
 
-    elif brk =='(':
-        if stk[-1]['loc'] == loc:
-            stk[-1]['status'] = 1
-            stk.append({'loc': loc, 'brk': brk, 'status': 0})
-        else:
-            stk.append({'loc': loc, 'brk': brk, 'status': 0})
 
+
+
+
+
+
+
+
+    
 
 print(ans)
-
-
-
-
-
-
-
-
-
-
-
 
 
