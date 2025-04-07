@@ -10,13 +10,16 @@ for _ in range(n):
 
 tt.sort(key = lambda x:(x[1], x[0]))
 
-result =[]
+cnt = 1
+e_time = 0
 
 for s, e in tt:
-    if result:
-        if s >= result[-1][1]:
-            result.append((s,e))
-    else:
-        result.append((s,e))
+    if e_time >0:
+        if s >= e_time:
+            cnt +=1
+            e_time = e
+    elif e_time == 0:
+        e_time = e
 
-print(len(result))
+print(cnt)
+
