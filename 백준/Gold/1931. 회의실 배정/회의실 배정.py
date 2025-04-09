@@ -6,20 +6,21 @@ tt = []
 
 for _ in range(n):
     a , b = list(map(int,sys.stdin.readline().split()))
-    tt.append((a,b))
+    tt.append((b,a))
 
-tt.sort(key = lambda x:(x[1], x[0]))
+tt.sort()
 
-cnt = 1
-e_time = 0
+result = []
 
-for s, e in tt:
-    if e_time >0:
-        if s >= e_time:
-            cnt +=1
-            e_time = e
-    elif e_time == 0:
-        e_time = e
 
-print(cnt)
+for end, start in tt:
+    if not result:
+        result.append((start,end))
+        continue
+
+    if start >= result[-1][1]:
+        result.append((start,end))
+
+print(len(result))
+
 
