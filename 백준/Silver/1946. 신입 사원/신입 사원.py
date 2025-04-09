@@ -1,21 +1,31 @@
 import sys
 
-n = int(sys.stdin.readline().strip())
+t = int(sys.stdin.readline().strip())
 
-for i in range(n):
-    m = int(sys.stdin.readline().strip())
-    content = []
-    for i in range(m):
+for i in range(t):
+    n = int(sys.stdin.readline().strip())
+    applicant = []
+    for _ in range(n):
         a, b = list(map(int,sys.stdin.readline().split()))
-        content.append((a,b))
-
-    content.sort()
+        applicant.append((a,b))
     result = []
-    for m, s in content:
-        if result:
-            if m <= result[-1][0] or s <= result[-1][1]:
-                result.append((m,s))
-        else:
-            result.append((content[0][0], content[0][1]))
+
+    applicant.sort()
+
+
+    for re, it in applicant:
+        if not result:
+            result.append(applicant[0])
+            continue
+
+        if re < result[-1][0] or it < result[-1][1]:
+            result.append((re,it))
         
+
     print(len(result))
+
+
+
+
+
+    
