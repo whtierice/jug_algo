@@ -1,8 +1,9 @@
 import sys
+from collections import deque
 n, m = list(map(int,sys.stdin.readline().split()))
 
-a = list(map(int, sys.stdin.readline().split()))
-b = list(map(int, sys.stdin.readline().split()))
+a = deque(list(map(int, sys.stdin.readline().split())))
+b = deque(list(map(int, sys.stdin.readline().split())))
 
 # print(n)
 # print(m)
@@ -13,15 +14,15 @@ result = []
 a_pointer = 0
 b_pointer = 0
 
-while a_pointer < n and b_pointer < m:
+while a and b:
     #print(f"b_pointer : {b_pointer}")
-    if a[a_pointer] > b[b_pointer]:
-        result.append(b[b_pointer])
+    if a[0] > b[0]:
+        result.append(b.popleft())
         #print(f"a_pointer : {a_pointer}")
         #print(f"b_pointer : {b_pointer}")
-        b_pointer +=1
+        #b_pointer +=1
     else:
-        result.append(a[a_pointer])
+        result.append(a.popleft())
         a_pointer +=1
 # print(*result)
 # print(len(a))
@@ -29,15 +30,13 @@ while a_pointer < n and b_pointer < m:
 # print(f"a_pointer : {a_pointer}")
 # print(f"b_pointer : {b_pointer}")
 
-if a_pointer == n:
-    while b_pointer < m:
+if not a:
+    while b:
         #print(f"len of b: {len(b)}")
-        result.append(b[b_pointer])
-        b_pointer +=1
-elif b_pointer == m:
-    while a_pointer < n:
+        result.append(b.popleft())
+elif not b:
+    while a:
         #print(f"len of a: {len(a)}")
-        result.append(a[a_pointer])
-        a_pointer +=1
+        result.append(a.popleft())
 
 print(*result)
