@@ -8,11 +8,11 @@ for _ in range(n):
 
 
 
-# dir = [(1,0),(0,1),(-1,0),(0,-1)]
+dir = [(1,0),(0,1),(-1,0),(0,-1)]
 # 튜플 언패킹 보단 정수 인덱스를 사용하도록 하는 게 시간 복잡도에서 효율적
 
-dx = (-1,1,0,0)
-dy = (0,0,1,-1)
+# dx = (-1,1,0,0)
+# dy = (0,0,1,-1)
 q = deque()
 day = 0
 
@@ -31,8 +31,8 @@ while True:
 
                 while q:
                     x, y = q.popleft()
-                    for i in range(4):
-                        nx , ny = x + dx[i], y +dy[i]
+                    for dx,dy in dir:
+                        nx , ny = x + dx, y +dy
 
                         if 0<=nx < n and 0<=ny < n and not visited[nx][ny]:
                             if l <= abs(a[x][y] - a[nx][ny]) <= r:
