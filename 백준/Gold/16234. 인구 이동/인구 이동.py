@@ -1,58 +1,48 @@
+import math
 import sys
 from collections import deque
-n, l, r = list(map(int, sys.stdin.readline().split()))
 
-a = []
-for _ in range(n):
-    a.append(list(map(int,sys.stdin.readline().split())))
-
-
-
-dir = [(1,0),(0,1),(-1,0),(0,-1)]
+N, L, R = map(int,sys.stdin.readline().split())
+population = []
+queue = deque()
+for _ in range(N):
+    population.append(list(map(int,sys.stdin.readline().split())))
+dx = [-1,1,0,0]
+dy = [0,0,1,-1]
 day = 0
-while True:
-    visited = [[False]*n for _ in range(n)]
-    moved = False
 
-    
-    for rr in range(n):
-        for c in range(n):
-            if visited[rr][c] == True:
-                continue
-
-            q = deque([(rr,c)])
-            visited[rr][c] = True
-            mem = [(rr,c)]
-            total_pop = a[rr][c]
-
-            while q:
-                x, y = q.popleft()
-                for (dx,dy) in dir:
-                    nx , ny = x + dx, y +dy
-
-                    if 0<=nx <= n-1 and 0<=ny <= n-1 and not visited[nx][ny]:
-                        if l <= abs(a[x][y] - a[nx][ny]) <= r:
-                            visited[nx][ny] = True
-                            q.append((nx,ny))
-                            mem.append((nx,ny))
-                            total_pop += a[nx][ny]
-
-
-                                
-            
-            if (len(mem) >= 2):
-                avg_pop = total_pop // len(mem)
-                moved = True
-                for (o,p) in mem:
-                    a[o][p] = avg_pop
-
-    
-    if not moved:
+while(True):
+    check = False
+    visited = [[False]*N for _ in range(N)]
+    for i in range(N):
+        for j in range(N):
+            if not visited[i][j]:
+                visited[i][j] = True
+                union = []
+                queue.append((i,j))
+                cnt = 0
+                total = 0
+                while queue:
+                    x, y = queue.popleft()
+                    union.append((x,y))
+                    cnt += 1
+                    total += population[x][y]
+                    for k in range(4):
+                        nx = x + dx[k]
+                        ny = y + dy[k]
+                        if 0<= nx < N and 0<= ny < N and not visited[nx][ny]:
+                            if L <= abs(population[x][y] - population[nx][ny]) <=R:
+                                queue.append((nx,ny))
+                                visited[nx][ny] = True                
+                        
+                if cnt != 1:
+                    for x,y in union:
+                        avg = math.floor(total/cnt)
+                        population[x][y] = avg
+                        check = True
+    if check == False:
         break
-    day += 1
+    else:
+        day += 1
+
 print(day)
-
-
-
-
-
