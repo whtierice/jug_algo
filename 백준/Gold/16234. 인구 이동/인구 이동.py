@@ -1,62 +1,57 @@
 import sys
 from collections import deque
-n, l, r = list(map(int, sys.stdin.readline().split()))
 
-a = []
-for _ in range(n):
-    a.append(list(map(int,sys.stdin.readline().split())))
-
-
-
-dir = [(1,0),(0,1),(-1,0),(0,-1)]
-# 튜플 언패킹 보단 정수 인덱스를 사용하도록 하는 게 시간 복잡도에서 효율적
-
-# dx = (-1,1,0,0)
-# dy = (0,0,1,-1)
-q = deque()
-day = 0
-
-while True:
-    visited = [[False]*n for _ in range(n)]
-    moved = False
-
+def solve():
+    n, l, r = map(int, sys.stdin.readline().split())
     
-    for rr in range(n):
-        for c in range(n):
-            if not visited[rr][c] :
-                q.append((rr,c))
-                visited[rr][c] = True
-                mem = [(rr,c)]
-                total_pop = a[rr][c]
-
-                while q:
-                    x, y = q.popleft()
-                    for dx,dy in dir:
-                        nx , ny = x + dx, y +dy
-
-                        if 0<=nx < n and 0<=ny < n and not visited[nx][ny]:
-                            if l <= abs(a[x][y] - a[nx][ny]) <= r:
-                                visited[nx][ny] = True
-                                q.append((nx,ny))
-                                mem.append((nx,ny))
-                                total_pop += a[nx][ny]
-
-
-                                
+    a = []
+    for _ in range(n):
+        a.append(list(map(int, sys.stdin.readline().split())))
+    
+    dx = (-1, 1, 0, 0)
+    dy = (0, 0, 1, -1)
+    
+    day = 0
+    
+    while True:
+        visited = [[False] * n for _ in range(n)]
+        moved = False
+        
+        for i in range(n):
+            for j in range(n):
+                if not visited[i][j]:
+                    # BFS로 연합 찾기
+                    q = deque([(i, j)])
+                    visited[i][j] = True
+                    union = [(i, j)]
+                    total = a[i][j]
+                    
+                    while q:
+                        x, y = q.popleft()
+                        
+                        for k in range(4):
+                            nx, ny = x + dx[k], y + dy[k]
+                            
+                            if 0 <= nx < n and 0 <= ny < n and not visited[nx][ny]:
+                                diff = abs(a[x][y] - a[nx][ny])
+                                if l <= diff <= r:
+                                    visited[nx][ny] = True
+                                    q.append((nx, ny))
+                                    union.append((nx, ny))
+                                    total += a[nx][ny]
+                    
+                    # 연합이 2개 이상이면 인구 이동
+                    if len(union) > 1:
+                        moved = True
+                        avg = total // len(union)
+                        for x, y in union:
+                            a[x][y] = avg
+        
+        if not moved:
+            break
             
-            if (len(mem) >= 2):
-                avg_pop = total_pop // len(mem)
-                moved = True
-                for (o,p) in mem:
-                    a[o][p] = avg_pop
-
+        day += 1
     
-    if not moved:
-        break
-    day += 1
-print(day)
+    return day
 
-
-
-
-
+print(solve())
