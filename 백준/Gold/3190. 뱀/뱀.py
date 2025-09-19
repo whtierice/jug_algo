@@ -2,89 +2,67 @@ import sys
 input = sys.stdin.readline
 from collections import deque
 
-apple = deque()
-snake = deque()
-dir_ch = deque()
-dir = 1
-time = 0
-
 n = int(input())
 
-
 k = int(input())
-
-
-(x,y) = (1,1)
-snake.append((x,y))
-
+apple = deque()
 for _ in range(k):
-    a , b = list(map(int,input().split()))
-    apple.append((a,b))
-
-# apple = [(3,4), (2,5), (5,3)]
+    a, b = map(int, input().split())
+    apple.append((a, b))
 
 l = int(input())
-
+dq = deque()
 for _ in range(l):
-    a , b = list((input().split()))
+    a, b = input().split()
     a = int(a)
-    dir_ch.append((a,b))
+    dq.append((a, b))
 
-#dir_ch = [(3,D), [(15,L), (17,D)]
-
-
-
+bam = deque()
+time = 0
+x, y = 1, 1
+direction = 0 # 0우 1상 2좌 3하
+bam.append((x, y))
 
 while True:
-    time +=1
-
+    time += 1
     
-    # 이동
-    if dir ==1:
-        y +=1
-    
-    if dir == 0:
-        x -=1
+    # 뱀 이동
+    if direction == 0:
+        y += 1
+    elif direction == 1:
+        x -= 1
+    elif direction == 2:
+        y -= 1
+    elif direction == 3:
+        x += 1
 
-    if dir == 2:
-        x+=1
-
-    if dir ==3:
-        y-=1
-
-    # 경기장 밖을 나간 경우
-    if x > n or  y > n or x < 1 or y < 1 :
+    # 벽에 부딪히면 게임 오버
+    if x < 1 or x > n or y < 1 or y > n:
+        #print("GAME OVER: 벽에 부딪혔습니다")
         break
-    
-    # 자기 몸에 부딪힌 경우
-    if (x,y) in snake:
+
+    # 자기 자신한테 부딪히면 게임 오버
+    if (x, y) in bam:
+        #print("GAME OVER: 스스로 부딪혔습니다")
         break
-    
-    # 사과를 안먹은 경우 길이변화x
-    if (x,y) not in apple:
-        snake.append((x,y))
-        snake.popleft()
+
+    bam.append((x, y))
+    # 사과를 먹으면 머리만 늘어남
+    if (x, y) in apple:
+        apple.remove((x, y))
     else:
-        snake.append((x,y))
-        apple.remove((x,y))
+        bam.popleft()
         
+    # 방향 전환
+    if (time, 'L') in dq or (time, 'D') in dq:
+        d = dq.popleft()
+        if d[1] == 'D': # 왼쪽으로 90도 회전
+            direction -= 1
+            if direction == -1:
+                direction = 3
+        else: # 오른쪽으로 90도 회전
+            direction += 1
+            if direction == 4:
+                direction = 0
     
-    # 방향변화 시간이 된 경우
-    if (time, 'L') in dir_ch or (time, 'D') in dir_ch:
-        d = dir_ch.popleft()
-        if d[1] == 'L':
-            if dir == 0:
-                dir = 3
-            else:
-                dir -=1
-        
-        if d[1] == 'D':
-            if dir == 3:
-                dir = 0
-            else:
-                dir +=1
-        
-
 print(time)
-
-
