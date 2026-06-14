@@ -6,7 +6,7 @@ def solution(e, starts):
             divisor_count[j] += 1
             
     suffix_max = [0] * (e + 2)
-    suffix_max[e] = e  # e~e 구간의 답은 e 자신
+    suffix_max[e] = e  
 
     for i in range(e - 1, 0, -1):
         if divisor_count[i] >= divisor_count[suffix_max[i + 1]]:
