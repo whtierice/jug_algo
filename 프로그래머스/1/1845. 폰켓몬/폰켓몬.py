@@ -1,10 +1,10 @@
 def solution(nums):
-    answer = 0
+    set_nums = set(nums)
     
-    nums_set = set(nums)
-    
-    if len(nums) // 2 <= len(nums_set):
+
+    if len(set_nums) > len(nums) // 2:
         return len(nums) // 2
+    
      
     
-    return len(nums_set)
+    return len(set_nums)
